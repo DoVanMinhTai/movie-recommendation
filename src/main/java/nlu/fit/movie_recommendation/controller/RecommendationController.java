@@ -1,6 +1,7 @@
 package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
+import nlu.fit.movie_recommendation.service.RecommendationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
