@@ -1,0 +1,23 @@
+package nlu.fit.movie_recommendation.controller;
+
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/search")
+@AllArgsConstructor
+public class SearchController {
+    private final SearchService searchService;
+
+    @GetMapping("")
+    public ResponseEntity<List<MovieResponse>> searchMovies(@RequestParam("q") String query) {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/suggest")
+    public ResponseEntity<List<String>> suggestMovies(@RequestParam("prefix") String prefix) {
+        return ResponseEntity.ok().build();
+    }
+}
