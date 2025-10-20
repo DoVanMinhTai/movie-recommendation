@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity()
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @ToString
@@ -29,7 +29,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL);
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favorite> favorites;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<WatchHistory> watchHistory;
 }

@@ -3,23 +3,20 @@ package nlu.fit.movie_recommendation.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity()
-@Table(name = "favorites")
+@Table(name = "movies")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Favorite {
-
+public class Movie {
     @Id
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "movie_id", cascade = CascadeType.ALL)
+    private List<Rating> rating;
 
 }
-
-
-

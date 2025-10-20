@@ -1,8 +1,10 @@
 package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
+import nlu.fit.movie_recommendation.model.User;
 import nlu.fit.movie_recommendation.service.AuthService;
 import nlu.fit.movie_recommendation.service.UserService;
+import nlu.fit.movie_recommendation.viewmodel.user.ProfileVm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
-        ProfileResponse profileResponse = userService.getUserById(id);
+        ProfileVm profileResponse = userService.getUserById(id);
         return ResponseEntity.ok(profileResponse);
     }
 

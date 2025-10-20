@@ -3,8 +3,10 @@ package nlu.fit.movie_recommendation.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity()
-@Table(name = "user")
+@Table(name = "ratings")
 @Getter
 @Setter
 @ToString
@@ -20,5 +22,8 @@ public class Rating {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private List<Movie> movie;
     
 }
