@@ -2,6 +2,8 @@ package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_recommendation.service.MovieService;
+import nlu.fit.movie_recommendation.viewmodel.movie.MoviePostVm;
+import nlu.fit.movie_recommendation.viewmodel.movie.MoviePutVm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +32,12 @@ public class MovieController {
      */
 
     @PostMapping("/addMovie")
-    public ResponseEntity<?> addMovie(@RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<?> addMovie(@RequestBody MoviePostVm movieRequest) {
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/putMovie")
-    public ResponseEntity<?> updateMovie(@RequestBody MovieRequest request) {
+    public ResponseEntity<?> updateMovie(@RequestBody MoviePutVm request) {
         return ResponseEntity.ok().build();
     }
 

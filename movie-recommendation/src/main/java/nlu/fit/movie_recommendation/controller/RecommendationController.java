@@ -2,8 +2,11 @@ package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_recommendation.service.RecommendationService;
+import nlu.fit.movie_recommendation.viewmodel.recommendation.MovieRecommendationVm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/recommendation")
@@ -12,7 +15,7 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @PostMapping("")
-    public ResponseEntity<List<MovieResponse>> getRecommendations(@PathVariable Long userId) {
+    public ResponseEntity<List<MovieRecommendationVm>> getRecommendations(@PathVariable Long userId) {
         return ResponseEntity.ok().build();
     }
 

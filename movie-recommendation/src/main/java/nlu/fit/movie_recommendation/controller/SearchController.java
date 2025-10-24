@@ -13,7 +13,7 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping("")
-    public ResponseEntity<List<MovieResponse>> searchMovies(@RequestParam("q") String query) {
+    public ResponseEntity<List<MovieSearchVm>> searchMovies(@RequestParam("q") String query) {
         return ResponseEntity.ok().build();
     }
 
