@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record ProfileVm(
-
-
+        Long id,
+        String userName, String email
 ) {
 }

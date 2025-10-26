@@ -16,7 +16,7 @@ public class Movie {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "movie_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Rating> rating;
 
 }

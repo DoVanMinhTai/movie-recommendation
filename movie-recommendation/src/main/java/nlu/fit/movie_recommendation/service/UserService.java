@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
+    private  UserRepository userRepository;
 
     public ProfileVm getUserById(Long id) {
         User user = userRepository.findById(id).get();

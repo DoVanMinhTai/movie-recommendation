@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class MovieController {
     private final MovieService movieService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/")
     public ResponseEntity<?> getAllMovies(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "0") int size,

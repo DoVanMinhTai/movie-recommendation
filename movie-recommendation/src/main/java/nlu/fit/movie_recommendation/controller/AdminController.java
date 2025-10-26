@@ -1,15 +1,21 @@
 package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import nlu.fit.movie_recommendation.service.AdminService;
+import nlu.fit.movie_recommendation.viewmodel.admin.AdminStatsResponse;
+import nlu.fit.movie_recommendation.viewmodel.admin.MovieResponse;
+import nlu.fit.movie_recommendation.viewmodel.admin.UserResposne;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 @AllArgsConstructor
 public class AdminController {
-    private final AdminService adminService;
+    private AdminService adminService;
 
     @GetMapping("/statistics")
     public ResponseEntity<AdminStatsResponse> getStatistics() {

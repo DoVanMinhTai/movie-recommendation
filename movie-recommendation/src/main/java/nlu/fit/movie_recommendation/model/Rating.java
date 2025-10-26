@@ -24,6 +24,6 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    private List<Movie> movie;
+    private Movie movie;
     
 }
