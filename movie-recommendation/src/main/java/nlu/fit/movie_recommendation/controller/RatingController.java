@@ -24,5 +24,4 @@ public class RatingController {
         return ResponseEntity.ok().build();
     }
 
-
 }
