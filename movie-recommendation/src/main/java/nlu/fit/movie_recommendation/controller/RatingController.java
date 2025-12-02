@@ -15,8 +15,8 @@ public class RatingController {
     private final RateService rateService;
 
     @PostMapping("")
-    public ResponseEntity<?> rateMovie(@RequestBody RatingPostVm ratingRequest) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> rateMovie(@RequestBody RatingPostVm ratingRequest) {
+        return ResponseEntity.ok(rateService.rateMovie(ratingRequest));
     }
 
     @GetMapping("/{movieId}")

@@ -19,6 +19,10 @@ public class RecommendationController {
         return ResponseEntity.ok(recommendationService.getRecommendationsById(userId));
     }
 
+    /*
+    * WorkFlow for call API RecommendationService.updateRecommendations()
+    * Input - Logic - Output
+    * */
     @PostMapping("/update")
     public ResponseEntity<?> updateRecommendations() {
         return ResponseEntity.ok().build();

@@ -1,4 +1,9 @@
 package nlu.fit.movie_recommendation.viewmodel.movie;
 
-public record MovieFavoritesVm() {
+import lombok.Builder;
+
+@Builder
+public record MovieFavoritesVm(
+        Long id, String title
+) {
 }

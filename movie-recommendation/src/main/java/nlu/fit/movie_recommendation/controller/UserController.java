@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    /* Should I create API as below for Project?
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         ProfileVm profileResponse = userService.getUserById(id);
@@ -24,25 +25,21 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserPutVm user) {
         UserPutVm userPutVm = userService.updateUser(id, user);
         return ResponseEntity.ok(userPutVm);
-
     }
-
+    */
     @GetMapping("/{id}/getFavorites")
     public ResponseEntity<?> getFavorites(@PathVariable Long id) {
-        MovieFavoritesVm movieFavoritesVm = userService.getAllMovieFavorites(id);
-        return ResponseEntity.ok(movieFavoritesVm);
+        return ResponseEntity.ok(userService.getAllMovieFavorites(id));
     }
 
     @PostMapping("/{id}/getFavorites")
-    public ResponseEntity<?> addFavorite(@PathVariable Long id, @RequestBody Long movieId) {
-        userService.addFavorite(id,movieId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> addFavorite(@PathVariable Long id, @RequestBody Long movieId) {
+        return ResponseEntity.ok(userService.addFavorite(id, movieId));
     }
 
     @DeleteMapping("/{id}/favorites/{movieId}")
-    public ResponseEntity<?> deleteFavorite(@PathVariable Long id, @PathVariable Long movieId) {
-        userService.deleteFavorite(id,movieId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteFavorite(@PathVariable Long id, @PathVariable Long movieId) {
+        return ResponseEntity.ok(userService.deleteFavorite(id, movieId));
     }
 
 
