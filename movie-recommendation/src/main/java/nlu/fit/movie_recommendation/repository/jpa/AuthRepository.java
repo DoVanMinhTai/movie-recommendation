@@ -1,4 +1,4 @@
-package nlu.fit.movie_recommendation.repository;
+package nlu.fit.movie_recommendation.repository.jpa;
 
 import nlu.fit.movie_recommendation.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

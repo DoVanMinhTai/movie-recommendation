@@ -1,20 +1,18 @@
 package nlu.fit.movie_recommendation.config;
 
+import lombok.AllArgsConstructor;
 import nlu.fit.movie_recommendation.model.User;
-import nlu.fit.movie_recommendation.repository.AuthRepository;
+import nlu.fit.movie_recommendation.repository.jpa.AuthRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
 @org.springframework.stereotype.Service
+@AllArgsConstructor
 public class CustomUserDetailService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private final AuthRepository authRepository;
-
-    public CustomUserDetailService(AuthRepository authRepository) {
-        this.authRepository = authRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

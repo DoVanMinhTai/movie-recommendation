@@ -4,7 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02e2cc1b-b771-450f-9321-f58a5c11b263" name="Changes" comment="" />
+    <list default="true" id="02e2cc1b-b771-450f-9321-f58a5c11b263" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/document/MovieDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Genre.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/enumeration/ROLE.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/viewmodel/movie/MovieThumbnailVms.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/MovieRecommendationApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/MovieRecommendationApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/CustomUserDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/MovieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/MovieController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/controller/SearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Favorite.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Favorite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/Rating.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/WatchHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/model/WatchHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/AuthRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/jpa/AuthRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/MovieRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/jpa/MovieRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/RateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/jpa/RateRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/jpa/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/elasticsearchrepository/MovieSearchRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/repository/elasticsearchrepository/MovieSearchRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/MovieService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/RateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/RateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/SearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/SearchService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/viewmodel/movie/MoviePostVm.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/viewmodel/movie/MoviePostVm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/viewmodel/movie/MoviePutVm.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/java/nlu/fit/movie_recommendation/viewmodel/movie/MoviePutVm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie-recommendation/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/movie-recommendation/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,8 +75,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "dovanminhtai",
@@ -69,7 +105,18 @@
       <recent name="nlu.fit.movie_recommendation.controller" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="movie-recommendation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="movie-recommendation" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <configuration name="MovieRecommendationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="movie-recommendation" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="nlu.fit.movie_recommendation.MovieRecommendationApplication" />
@@ -77,6 +124,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -96,6 +160,7 @@
       <workItem from="1760853554496" duration="85000" />
       <workItem from="1760853699006" duration="5919000" />
       <workItem from="1760860913392" duration="3495000" />
+      <workItem from="1764496391552" duration="386000" />
     </task>
     <servers />
   </component>

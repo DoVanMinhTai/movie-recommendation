@@ -14,9 +14,9 @@ import java.util.List;
 public class RecommendationController {
     private final RecommendationService recommendationService;
 
-    @PostMapping("")
-    public ResponseEntity<List<MovieRecommendationVm>> getRecommendations(@PathVariable Long userId) {
-        return ResponseEntity.ok().build();
+    @PostMapping("/getRecommendationById")
+    public ResponseEntity<List<MovieRecommendationVm>> getRecommendationsById(@PathVariable Long userId) {
+        return ResponseEntity.ok(recommendationService.getRecommendationsById(userId));
     }
 
     @PostMapping("/update")

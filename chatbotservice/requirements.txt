@@ -1,0 +1,10 @@
+fastapi
+redis
+types-redis
+uvicorn
+pandas
+requests
+sqlalchemy
+psycopg2-binary
+uvicorn 
+sentence-transformers

@@ -2,16 +2,17 @@ package nlu.fit.movie_recommendation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nlu.fit.movie_recommendation.model.Genre;
 import nlu.fit.movie_recommendation.model.Movie;
-import nlu.fit.movie_recommendation.repository.MovieRepository;
-import nlu.fit.movie_recommendation.viewmodel.movie.MovieDetailVm;
-import nlu.fit.movie_recommendation.viewmodel.movie.MovieSearchVm;
+import nlu.fit.movie_recommendation.repository.jpa.GenreRepository;
+import nlu.fit.movie_recommendation.repository.jpa.MovieRepository;
+import nlu.fit.movie_recommendation.viewmodel.movie.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -19,42 +20,59 @@ import org.springframework.web.server.ResponseStatusException;
 public class MovieService {
 
     private final MovieRepository movieRepository;
-    private final SearchService searchService;
+    private final GenreRepository genreRepository;
 
-    /*
-     * Find movies by genre
-     * check exist elastic search index
-     *   check genre
-     *       if exist get movies from index
-     *       else getAllMovies()
-     * if not exist create index
-     *   check genre then get JPA movies or not
-     * */
+    public List<MovieThumbnailVms> getAllMovies() {
+        List<Movie> movies = movieRepository.findAll();
+        return convertListMoviesToListMovieThumbnailVms(movies);
+    }
 
-    public Page<MovieSearchVm> searchMovies(String genre, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        if (searchService != null) {
+    public MovieDetailVm addMovie(MoviePostVm moviePostVm) {
+        Movie movie = new Movie();
+        movie.setTmDBId(moviePostVm.tmDBId());
+        movie.setTitle(moviePostVm.title());
+        movie.setOriginalTitle(moviePostVm.originalTitle());
+        movie.setOverview(moviePostVm.overview());
+        movie.setReleaseDate(moviePostVm.releaseDate());
+        movie.setPosterPath(moviePostVm.posterPath());
+        movie.setBackdropPath(moviePostVm.backdropPath());
+        movie.setRuntime(moviePostVm.runtime());
+        movie.setTrailerKey(moviePostVm.trailerKey());
+        movie.setVoteAverage(moviePostVm.voteAverage());
+        movie.setVoteCount(moviePostVm.voteCount());
+        movie.setPopularity(moviePostVm.popularity());
 
-            if (genre != null) {
-                if (!searchService.findByGenre(genre, pageable).hasContent()) {
+        List<Genre> genres = genreRepository.findAllById(moviePostVm.genresId());
 
-                }
-                Page<Movie> moviePage = searchService.findByGenre(genre, pageable);
-                return convertMovieToMovieSearchVm(moviePage);
-            } else {
-                Page<Movie> moviePageAll = searchService.findAll();
-                return convertMovieToMovieSearchVm(moviePageAll);
+        movie.setGenres(genres);
+        Movie savedMovie = movieRepository.save(movie);
+        return convertMovieToMovieDetailVm(savedMovie);
+    }
 
-            }
-        } else {
-            if (genre != null && !genre.isEmpty()) {
-                Page<Movie> moviePage = movieRepository.findAll(pageable);
-                return convertMovieToMovieSearchVm(moviePage);
-            } else {
-                Page<Movie> moviePage = movieRepository.findAll(pageable);
-                return convertMovieToMovieSearchVm(moviePage);
-            }
-        }
+    public MovieDetailVm putMovie(MoviePutVm request) {
+        Movie movie = movieRepository.findById(request.id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        MoviePostVm moviePostVm = request.moviePostVm();
+        movie.setTmDBId(moviePostVm.tmDBId());
+        movie.setTitle(moviePostVm.title());
+        movie.setOriginalTitle(moviePostVm.originalTitle());
+        movie.setOverview(moviePostVm.overview());
+        movie.setReleaseDate(moviePostVm.releaseDate());
+        movie.setPosterPath(moviePostVm.posterPath());
+        movie.setBackdropPath(moviePostVm.backdropPath());
+        movie.setRuntime(moviePostVm.runtime());
+        movie.setTrailerKey(moviePostVm.trailerKey());
+        movie.setVoteAverage(moviePostVm.voteAverage());
+        movie.setVoteCount(moviePostVm.voteCount());
+        movie.setPopularity(moviePostVm.popularity());
+        Movie movieSaved = movieRepository.save(movie);
+        return convertMovieToMovieDetailVm(movieSaved);
+    }
+
+    public Void deleteMovie(Long id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        movie.setDeleted(true);
+        movieRepository.save(movie);
+        return null;
     }
 
     public MovieDetailVm getMovieById(Long id) {
@@ -66,19 +84,11 @@ public class MovieService {
                 });
     }
 
-
-
-
-
-
-    /*
-     * Hepler Method
-     * */
-
     private MovieDetailVm convertMovieToMovieDetailVm(Movie movie) {
+        return new MovieDetailVm(movie.getId(), movie.getTitle());
     }
 
-    private Page<MovieSearchVm> convertMovieToMovieSearchVm(Page<Movie> moviePage) {
+    private List<MovieThumbnailVms> convertListMoviesToListMovieThumbnailVms(List<Movie> movies) {
+        return movies.stream().map(item -> new MovieThumbnailVms(item.getId(), item.getTitle())).toList();
     }
-
 }

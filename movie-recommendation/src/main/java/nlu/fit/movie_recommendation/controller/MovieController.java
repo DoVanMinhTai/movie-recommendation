@@ -5,6 +5,7 @@ import nlu.fit.movie_recommendation.service.MovieService;
 import nlu.fit.movie_recommendation.viewmodel.movie.MoviePostVm;
 import nlu.fit.movie_recommendation.viewmodel.movie.MoviePutVm;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,35 +17,14 @@ public class MovieController {
     @GetMapping("/")
     public ResponseEntity<?> getAllMovies(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "0") int size,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String genre
     ) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(movieService.getAllMovies());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(@PathVariable Long id) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(movieService.getMovieById(id));
     }
-
-    /*
-     ** API Admin
-     */
-
-    @PostMapping("/addMovie")
-    public ResponseEntity<?> addMovie(@RequestBody MoviePostVm movieRequest) {
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/putMovie")
-    public ResponseEntity<?> updateMovie(@RequestBody MoviePutVm request) {
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
-        return ResponseEntity.ok().build();
-    }
-
-
 }

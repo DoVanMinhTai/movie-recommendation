@@ -1,12 +1,15 @@
 package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import nlu.fit.movie_recommendation.service.AdminService;
+import nlu.fit.movie_recommendation.service.MovieService;
 import nlu.fit.movie_recommendation.viewmodel.admin.AdminStatsResponse;
 import nlu.fit.movie_recommendation.viewmodel.admin.MovieResponse;
 import nlu.fit.movie_recommendation.viewmodel.admin.UserResposne;
+import nlu.fit.movie_recommendation.viewmodel.movie.MoviePostVm;
+import nlu.fit.movie_recommendation.viewmodel.movie.MoviePutVm;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 @RequestMapping("/admin")
 @AllArgsConstructor
 public class AdminController {
-    private AdminService adminService;
+    private MovieService movieService;
 
     @GetMapping("/statistics")
     public ResponseEntity<AdminStatsResponse> getStatistics() {
@@ -37,5 +40,18 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/addMovie")
+    public ResponseEntity<?> addMovie(@RequestBody @Validated MoviePostVm movieRequest) {
+        return ResponseEntity.ok(movieService.addMovie(movieRequest));
+    }
 
+    @PutMapping("/putMovie")
+    public ResponseEntity<?> updateMovie(@RequestBody @Validated MoviePutVm request) {
+        return ResponseEntity.ok(movieService.putMovie(request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
+        return ResponseEntity.ok(movieService.deleteMovie(id));
+    }
 }

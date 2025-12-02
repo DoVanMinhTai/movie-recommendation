@@ -2,6 +2,7 @@ package nlu.fit.movie_recommendation.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import nlu.fit.movie_recommendation.model.enumeration.ROLE;
 
 import java.util.List;
 
@@ -24,7 +25,9 @@ public class User {
 
     private String email;
 
-    private String role;
+    private ROLE role;
+
+    private String fullName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rating> ratings;

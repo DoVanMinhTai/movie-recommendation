@@ -1,7 +1,7 @@
 package nlu.fit.movie_recommendation.service;
 
 import lombok.RequiredArgsConstructor;
-import nlu.fit.movie_recommendation.repository.RateRepository;
+import nlu.fit.movie_recommendation.repository.jpa.RateRepository;
 import nlu.fit.movie_recommendation.viewmodel.rate.RatingPostVm;
 import org.springframework.stereotype.Service;
 

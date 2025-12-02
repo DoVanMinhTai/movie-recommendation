@@ -2,7 +2,7 @@ package nlu.fit.movie_recommendation.service;
 
 import lombok.RequiredArgsConstructor;
 import nlu.fit.movie_recommendation.model.User;
-import nlu.fit.movie_recommendation.repository.AuthRepository;
+import nlu.fit.movie_recommendation.repository.jpa.AuthRepository;
 import nlu.fit.movie_recommendation.viewmodel.auth.LoginVm;
 import nlu.fit.movie_recommendation.viewmodel.auth.RegisterPostVm;
 import nlu.fit.movie_recommendation.viewmodel.auth.RegisterVm;
