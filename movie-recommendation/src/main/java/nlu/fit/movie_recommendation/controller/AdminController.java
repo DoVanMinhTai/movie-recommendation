@@ -1,7 +1,6 @@
 package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
-import nlu.fit.movie_recommendation.service.AdminService;
 import nlu.fit.movie_recommendation.service.MovieService;
 import nlu.fit.movie_recommendation.viewmodel.admin.AdminStatsResponse;
 import nlu.fit.movie_recommendation.viewmodel.admin.MovieResponse;

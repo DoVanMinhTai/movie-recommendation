@@ -3,9 +3,13 @@ package nlu.fit.movie_recommendation.service;
 import lombok.RequiredArgsConstructor;
 import nlu.fit.movie_recommendation.document.MovieDocument;
 import nlu.fit.movie_recommendation.repository.elasticsearchrepository.MovieSearchRepository;
+import nlu.fit.movie_recommendation.viewmodel.search.MovieSearchVm;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -45,13 +49,18 @@ public class SearchService {
 //            return convertMovieToMovieSearchVm(moviePage);
 //        }
 //    }
-
-
-    public Page<MovieDocument> findByGenre(String genre, Pageable pageable) {
-        return movieSearchRepository.findByGenre(genre, pageable);
+    public Page<MovieSearchVm> findByGenre(String genre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return movieSearchRepository.findByGenre(genre, pageable).map(
+                MovieSearchVm::fromMovieDocumentToMovieSearchVm
+        );
     }
 
     public Page<MovieDocument> findAll(Pageable pageable) {
         return movieSearchRepository.findAll(pageable);
+    }
+
+    public List<MovieDocument> findByTitleContaining(String title) {
+        return movieSearchRepository.findByTitleContaining(title);
     }
 }

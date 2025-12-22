@@ -70,5 +70,6 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<WatchHistory> watchHistory;
 
-    private boolean isDeleted;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted = false;
 }

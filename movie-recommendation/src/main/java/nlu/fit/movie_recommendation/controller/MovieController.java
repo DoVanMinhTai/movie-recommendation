@@ -2,10 +2,7 @@ package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_recommendation.service.MovieService;
-import nlu.fit.movie_recommendation.viewmodel.movie.MoviePostVm;
-import nlu.fit.movie_recommendation.viewmodel.movie.MoviePutVm;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +13,9 @@ public class MovieController {
 
     @GetMapping("/")
     public ResponseEntity<?> getAllMovies(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String genre
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size,
+//            @RequestParam(required = false) String genre
     ) {
         return ResponseEntity.ok(movieService.getAllMovies());
     }

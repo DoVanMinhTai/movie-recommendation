@@ -1,0 +1,10 @@
+numpy<2
+fastapi
+sqlalchemy
+psycopg2
+uvicorn
+pandas
+pydantic-settings
+joblib
+scikit-learn
+surprise

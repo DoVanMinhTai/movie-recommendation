@@ -9,7 +9,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 public interface MovieSearchRepository extends ElasticsearchRepository<MovieDocument,String> {
+    List<MovieDocument> findByTitleContaining(String title);
+
     Page<MovieDocument> findByGenre(String genre, Pageable pageable);
 }
 

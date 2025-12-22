@@ -6,8 +6,6 @@ import nlu.fit.movie_recommendation.viewmodel.rate.RatingPostVm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/rate")
 @AllArgsConstructor

@@ -23,10 +23,18 @@ public class RecommendationService {
                 .path("/recommendation/{userId}")
                 .buildAndExpand(userId)
                 .toUri();
-//
-//        return restClient.get()
-//                .uri(url)
-//                .retrieve().body(List<MovieRecommendationVm>.class);
+        /*
+        return restClient.get()
+                .uri(url)
+                .retrieve().body(List<MovieRecommendationVm>.class);
+        */
+        return null;
+    }
+
+    public String updateRecommendations() {
+        final URI url = UriComponentsBuilder.fromHttpUrl(serviceUrlConfig.recommendation())
+                .path("/recommendation/reTraining")
+                .build().toUri();
         return null;
     }
 }

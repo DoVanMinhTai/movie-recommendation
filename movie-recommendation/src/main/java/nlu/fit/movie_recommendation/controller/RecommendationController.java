@@ -20,12 +20,12 @@ public class RecommendationController {
     }
 
     /*
-    * WorkFlow for call API RecommendationService.updateRecommendations()
-    * Input - Logic - Output
-    * */
+     * WorkFlow for call API RecommendationService.updateRecommendations()
+     * Input - Logic - Output
+     * */
     @PostMapping("/update")
     public ResponseEntity<?> updateRecommendations() {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(recommendationService.updateRecommendations());
     }
 
 

@@ -2,9 +2,6 @@ package nlu.fit.movie_recommendation.controller;
 
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_recommendation.service.UserService;
-import nlu.fit.movie_recommendation.viewmodel.movie.MovieFavoritesVm;
-import nlu.fit.movie_recommendation.viewmodel.user.ProfileVm;
-import nlu.fit.movie_recommendation.viewmodel.user.UserPutVm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
