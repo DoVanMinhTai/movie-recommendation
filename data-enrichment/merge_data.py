@@ -8,7 +8,10 @@ import csv
 # --- CẤU HÌNH ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
-TMDB_API_KEY = '09a7faea89755a7cc2ab38967e530f1f' # Key của bạn
+MOVIE_LENS_DIR = os.path.join(DATA_DIR, "movielens")    
+SERIES = os.path.join(DATA_DIR, "series")
+
+TMDB_API_KEY = '09a7faea89755a7cc2ab38967e530f1f'
 
 print("1. Đang đọc các file CSV...")
 try:
@@ -25,9 +28,7 @@ df_merged = pd.merge(df_movies, df_links, on='movieId', how='left')
 df_merged = df_merged.dropna(subset=['tmdbId'])
 df_merged['tmdbId'] = df_merged['tmdbId'].astype(int)
 
-# !!! QUAN TRỌNG: Bỏ comment dòng dưới để chạy thử 20 phim trước khi chạy thật !!!
 df_merged = df_merged.head(20)
-
 print(f"3. Bắt đầu lấy dữ liệu từ TMDB cho {len(df_merged)} bộ phim...")
 
 enrich_data = []
@@ -43,7 +44,9 @@ for index, row in df_merged.iterrows():
     # 2. API Trailer (Video)
     url_videos = f"https://api.themoviedb.org/3/movie/{tmdb_id}/videos?api_key={TMDB_API_KEY}"
 
-    # Giá trị mặc định nếu lỗi
+
+    series_film = f"https://api.themoviedb.org/3/tv/{tmdb_id}?api_key={TMDB_API_KEY}&language=en-US"    
+    
     movie_data = {
         'overview': None,
         'poster_path': None,
@@ -54,7 +57,8 @@ for index, row in df_merged.iterrows():
         'vote_count': 0,
         'popularity': 0.0,
         'original_title': None,
-        'trailer_key': None
+        'trailer_key': None,
+        'originalLanguage': None
     }
 
     try:
@@ -65,12 +69,13 @@ for index, row in df_merged.iterrows():
             movie_data['overview'] = data.get('overview', '').replace('\n', ' ').replace('\r', '')
             movie_data['poster_path'] = data.get('poster_path')
             movie_data['backdrop_path'] = data.get('backdrop_path')
-            movie_data['release_date'] = data.get('release_date') # Format yyyy-mm-dd
+            movie_data['release_date'] = data.get('release_date') 
             movie_data['runtime'] = data.get('runtime')
             movie_data['tmdb_vote'] = data.get('vote_average')
             movie_data['vote_count'] = data.get('vote_count')
             movie_data['popularity'] = data.get('popularity')
             movie_data['original_title'] = data.get('original_title')
+            movie_data['originalLanguage'] = data.get('original_language')
 
         # --- CALL API VIDEOS (TRAILER) ---
         resp_vid = session.get(url_videos, timeout=3)
@@ -124,3 +129,7 @@ df_final.to_csv(out_path, index=False, encoding='utf-8', quoting=csv.QUOTE_ALL)
 
 print(f"XONG! File đã lưu tại: {out_path}")
 print("Bây giờ bạn có thể dùng lệnh COPY trong PostgreSQL.")
+
+def fetch_series(): 
+    df_series = pd.read_csv(os.path.join(SERIES, "series_final.csv"))
+    return df_series
