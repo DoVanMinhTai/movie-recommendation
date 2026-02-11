@@ -1,6 +1,26 @@
 version: '3.7'
 
 services:
+    postgres:
+      image: postgres:13
+      container_name: movie-postgres
+      environment:
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_DB=${DB_NAME}
+      ports:
+        - "${DB_PORT}:5432"
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      networks:
+        - movie-net
+      deploy:
+        resources:
+          limits:
+            memory: {MEM_LIMIT_POSTGRES}
+          reservations:
+            memory: 512m
+
     elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
       container_name: elasticsearch
@@ -8,11 +28,92 @@ services:
         - discovery.type=single-node
         - xpack.security.enabled=false
       ports:
-        - 9200:9200
-        - 9300:9300
+        - "${ES_PORT_9200}:9200"
+        - "${ES_PORT_9300}:9300"
+      deploy:
+        resources:
+          limits:
+            memory: ${MEM_LIMIT_ES}
+          reservations:
+            memory: 1g
       networks:
-        - elastic-net
+        - movie-net
+    recommendation:
+      build: ./movie-recommendation
+      container_name: movie-recommendation
+      ports:
+        - "${RECOMMENDATION_PORT}:8082"
+      env_file:
+        - .env
+      environment:
+        - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      volumes:
+        - .:/app
+        - ./model-store:/app/model-store/recommendation_models
+      depends_on:
+        - postgres
+        - elasticsearch
+      networks:
+        - movie-net
+      deploy:
+        resources:
+          limits:
+            memory: ${MEM_LIMIT_API}
+    chatbot:
+      build: ./movie-chatbot
+      container_name: movie-chatbot
+      ports:
+        - "${CHATBOT_PORT}:8081"
+      env_file:
+        - .env
+      environment:
+        - ES_HOST=http://elasticsearch:9200
+      volumes:
+        - ./model-store:/app/model-store/chatbot_models
+      depends_on:
+        - elasticsearch
+      networks:
+        - movie-net
+      deploy:
+        resources:
+          limits:
+            memory: ${MEM_LIMIT}
+    
+    movie-backend:
+      build: ./movie-backend
+      container_name: movie-backend
+      ports:
+        - "${BACKEND_PORT}:8080"
+      env_file:
+        - .env
+      volumes:
+        - ./model-store:/app/model-store
+      depends_on:
+        - postgres
+        - elasticsearch
+      networks:
+        - movie-net
+      deploy:
+        resources:
+          limits:
+            memory: ${MEM_LIMIT_API}
+
+    movie-frontend:
+      build: ./movie-frontend
+      container_name: movie-frontend
+      ports:
+        - "${FRONTEND_PORT}:3000"
+      env_file:
+        - .env
+      depends_on:
+        - movie-backend
+      networks:
+        - movie-net
+      deploy:
+        resources:
+          limits:
+            memory: ${MEM_LIMIT_FRONTEND}
 
 networks:
-  elastic-net:
+  movie-net:
     driver: bridge

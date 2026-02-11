@@ -1,0 +1,22 @@
+# --- Framework & Server ---
+fastapi
+uvicorn
+python-multipart
+python-dotenv
+
+# --- Database & Search ---
+elasticsearch
+sqlalchemy
+psycopg2-binary
+requests
+
+# --- AI & NLP ---
+torch --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers
+gpt4all
+underthesea
+pydantic
+
+# --- Utilities ---
+pandas
+asyncio

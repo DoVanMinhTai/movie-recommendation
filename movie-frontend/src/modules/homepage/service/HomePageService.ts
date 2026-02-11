@@ -1,0 +1,24 @@
+import apiClientService from "../../../common/services/ApiClientService"
+import type { ContentType } from "../model/enum/ContentType";
+
+const baseURL = "http://localhost:8080";
+
+export async function getTop10(contentType: ContentType, limit: number = 10) {
+    const response = await apiClientService.get(`${baseURL}/movie/movies/top10?contenttype=${contentType}&limit=${limit}`);
+    return response.data;
+}
+
+export async function getContinueWatching() {
+    const response = await apiClientService.get(`${baseURL}/homepage/2`);
+    return response.data;
+}
+
+export async function getTrending() {
+    const response = await apiClientService.get(`${baseURL}/movie/movies/trending?limit=10`);
+    return response.data;
+}
+
+export async function getHeroMovie() {
+    const response = await apiClientService.get(`${baseURL}/movie/movies/hero`);
+    return response.data;
+}
