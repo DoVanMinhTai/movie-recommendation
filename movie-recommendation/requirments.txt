@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic-settings
+pandas
+scikit-learncd 
+scikit-surprise
+joblib
+numpy<2.0
+python-multipart
