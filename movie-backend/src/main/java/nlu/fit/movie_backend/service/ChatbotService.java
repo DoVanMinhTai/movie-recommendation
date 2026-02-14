@@ -3,6 +3,7 @@ package nlu.fit.movie_backend.service;
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_backend.config.ServiceUrlConfig;
 import nlu.fit.movie_backend.viewmodel.chatbot.ChatRequest;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,8 +25,13 @@ public class ChatbotService {
                 .path("/chatbot/sendMessage")
                 .build().toUri();
 
-        return webClient.post().uri(url).bodyValue(chatRequest).retrieve()
-                .bodyToFlux(String.class);
+        return webClient.post().uri(url).bodyValue(chatRequest)
+                .accept(MediaType.TEXT_EVENT_STREAM)
+                .retrieve()
+                .bodyToFlux(String.class)
+                .map(data -> data)
+                .filter(data -> !data.isBlank())
+                ;
     }
 
     public Object getMessages(Long userId) {

@@ -1,6 +1,14 @@
 import axios, { type AxiosRequestConfig, type AxiosInstance } from "axios";
 import { HandleError } from "./error/HandleError";
 
+export interface PageAbleResponse {
+    content: any[];
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+}
+
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: "",
     headers: {

@@ -1,5 +1,4 @@
-import apiClientService from "../../../common/services/ApiClientService";
-import type { PageAbleResponse } from "../../../common/services/vm/PageAble";
+import apiClientService, { type PageAbleResponse } from "../../../common/services/ApiClientService";
 import type { MovieThumbnailVm } from "../model/MovieThumbnailVm";
 
 const baseUrl = "http://localhost:8080";

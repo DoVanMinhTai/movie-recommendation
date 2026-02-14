@@ -1,81 +1,68 @@
 package nlu.fit.movie_backend.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import nlu.fit.movie_backend.model.Favorite;
-import nlu.fit.movie_backend.model.MediaContent;
-import nlu.fit.movie_backend.model.Movie;
-import nlu.fit.movie_backend.model.User;
+import nlu.fit.movie_backend.model.*;
 import nlu.fit.movie_backend.repository.jpa.*;
-import nlu.fit.movie_backend.viewmodel.admin.UserResponse;
 import nlu.fit.movie_backend.viewmodel.movie.MovieFavoritesVm;
-import nlu.fit.movie_backend.viewmodel.user.ProfileVm;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final FavoriteRepository favoriteRepository;
-    private final MovieRepository movieRepository;
     private final MediaContentRepository mediaContentRepository;
+    private final GenreRepository genreRepository;
     private final JWTService jwtService;
-    private final TokenRepository tokenRepository;
-
-    public ProfileVm getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User not found")
-        );
-        return ProfileVm.builder().build();
-    }
-
-    /* Do I need this?
-    public UserPutVm updateUser(Long id, UserPutVm user) {
-        User userUpdated = userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User not found")
-        );
-
-        userUpdated.set
-
-        return null;
-    }
-    */
 
     public List<MovieFavoritesVm> getAllMovieFavorites(Long userId) {
-
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new RuntimeException("User not found")
-        );
-        /*
-         * Check user or ...
-         * */
-        if (user == null) return null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
         List<Favorite> favorites = favoriteRepository.findAllByUserId(user.getId(), Pageable.unpaged());
-        return favorites.stream().map(item -> new MovieFavoritesVm(item.getId(), item.getMediaContent().getTitle())).toList();
+
+        return favorites.stream()
+                .map(item -> new MovieFavoritesVm(
+                        item.getMediaContent().getId(),
+                        item.getMediaContent().getTitle(),
+                        item.getMediaContent().getBackdropPath()
+                ))
+                .toList();
     }
 
-    public Void addFavorite(Long id, Long mediaContentId) {
+    public Void addFavorite(Long userId, Long mediaContentId) {
+         boolean exists = favoriteRepository.existsByUserIdAndMediaContentId(userId, mediaContentId);
+         if (exists) return null;
+
         MediaContent mediaContent = mediaContentRepository.findById(mediaContentId).orElseThrow(
                 () -> new RuntimeException("MediaContent not found")
         );
 
         Favorite favorite = new Favorite();
         favorite.setMediaContent(mediaContent);
-        favorite.setUser(userRepository.findById(id).orElseThrow(
+        favorite.setUser(userRepository.findById(userId).orElseThrow(
                 () -> new RuntimeException("User not found")
         ));
         favoriteRepository.save(favorite);
         return null;
     }
 
-    public Void deleteFavorite(Long id, Long movieId) {
-        Favorite favorite = favoriteRepository.findByUserIdAndMediaContent_Id(id, movieId);
-        favoriteRepository.delete(favorite);
+    @Transactional
+    public Void deleteFavorite(Long userId, Long movieId) {
+        Favorite favorite = favoriteRepository.findByUserIdAndMediaContent_Id(userId, movieId);
+
+        if (favorite != null) {
+            favoriteRepository.delete(favorite);
+        } else {
+            throw new RuntimeException("Không tìm thấy phim này trong danh sách yêu thích");
+        }
         return null;
     }
 
@@ -85,5 +72,17 @@ public class UserService {
         );
         user.setDeleted(true);
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public String processOnBoarding(String email, List<Long> genreIds) {
+        User user = userRepository.findByEmail(email).orElseThrow(()  -> new RuntimeException("User not found"));
+
+        Set<Genre> genres = genreRepository.findAllByIdIn(genreIds);
+
+        user.setPreferredGenres(genres);
+        User updatedUser = userRepository.save(user);
+
+        return jwtService.generateJWTToken(updatedUser);
     }
 }

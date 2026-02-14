@@ -14,6 +14,10 @@ import MovieManage from './pages/admin/MovieManage'
 import Category from './pages/category/Category'
 import "./index.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ProtectedRoute from './common/auth/components/ProtectedRoute'
+import OnBoarding from './pages/onboarding/OnBoarding'
+import { Toaster } from 'react-hot-toast';
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,30 +31,35 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
+
     <QueryClientProvider client={queryClient}>
+      <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/onboarding" element={<OnBoarding />} /> */}
 
-          <Route path='/' element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="movie/:id" element={<MovieDetail />} />
-            <Route path="search" element={<SearchResult />} />
-            <Route path="category/:type" element={<Category />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="watchlist" element={<WatchList />} />
+          <Route element={<ProtectedRoute allowedRoles={['USER', 'ADMIN']} />}>
+            <Route path="/onboarding" element={<OnBoarding />} />
+            <Route path='/' element={<MainLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="movie/:id" element={<MovieDetail />} />
+              <Route path="search" element={<SearchResult />} />
+              <Route path="category" element={<Category />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="watchlist" element={<WatchList />} />
+            </Route>
           </Route>
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="movies" element={<MovieManage />} />
-            <Route path="users" element={<div>Quản lý người dùng</div>} />
+          <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="movies" element={<MovieManage />} />
+              <Route path="users" element={<div>Quản lý người dùng</div>} />
+            </Route>
           </Route>
 
           <Route path="*" element={<h1>404 - Not Found</h1>} />
-
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

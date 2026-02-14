@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -23,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService JwtService;
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
 
     public RegisterVm register(RegisterPostVm request) {
         User user = new User();
@@ -57,28 +60,21 @@ public class AuthService {
                 .id(user.getId())
                 .userName(user.getUserName())
                 .email(user.getEmail())
-                .role(user.getRole())
+                .role(String.valueOf(user.getRole()))
                 .token(jwt)
                 .build();
     }
 
-    public ProfileVm getProfile() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ProfileVm getProfile(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
 
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof User user) {
-            return ProfileVm.builder()
-                    .id(user.getId())
-                    .userName(user.getUserName())
-                    .email(user.getEmail())
-                    .build();
-        } else {
-            return null;
-        }
+        return ProfileVm.builder().fullName(user.getFullName())
+                .email(user.getEmail())
+                .role(String.valueOf(user.getRole()))
+                .preferences(user.getPreferredGenres().stream().map(item -> item.getName())
+                        .collect(Collectors.toList()))
+                .build();
 
     }
 
-    public void logout() {
-    }
 }

@@ -26,7 +26,7 @@ export default function Login() {
       .then((data) => {
         alert('Đăng nhập thành công!');
         localStorage.setItem('token', data.token);
-        navigate('/');
+        navigate(data.role === 'ADMIN' ? '/admin' : '/');
       })
       .catch((error: { message: string; }) => {
         alert('Đăng nhập thất bại: ' + error.message);
@@ -44,8 +44,11 @@ export default function Login() {
             <h2 className="text-white text-large-title font-bold mb-8 text-center">Đăng nhập</h2>
 
             <form onSubmit={(e) => e.preventDefault()}>
-              <AuthInput label="Email hoặc số điện thoại" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <AuthInput label="Mật khẩu" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <AuthInput label="Email hoặc số điện thoại" type="email" value={email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+              />
+              <AuthInput label="Mật khẩu" type="password" value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
 
               <button className="bg-nfRed text-white font-bold w-full py-3 rounded bg-red-700 transition" onClick={handleLogin}>
                 Đăng nhập

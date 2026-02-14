@@ -26,9 +26,14 @@ public class DataIndexer implements CommandLineRunner {
         if (mediaContentSearchRepository.count() == 0) {
             List<MediaContent> mediaContents = mediaContentRepository.findAll();
             List<MediaContentDocument> indexList = mediaContents.stream().map(m -> {
-                Instant instant = Instant.ofEpochMilli(m.getReleaseDate().getYear());
-                Long year = (long) LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).getYear();
-                return new MediaContentDocument(m.getId(), m.getTitle(),m.getBackdropPath(), year);
+                Long yearValue = null;
+
+                if (m.getReleaseDate() != null) {
+                    yearValue = (long) m.getReleaseDate().getYear();
+                } else {
+                    yearValue = 0L;
+                }
+                return new MediaContentDocument(m.getId(), m.getTitle(),m.getBackdropPath(), yearValue);
             }).collect(Collectors.toList());
 
             mediaContentSearchRepository.saveAll(indexList);

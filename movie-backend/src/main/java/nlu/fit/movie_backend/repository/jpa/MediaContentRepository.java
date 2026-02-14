@@ -5,11 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MediaContentRepository extends JpaRepository<MediaContent,Long> {
@@ -21,4 +20,7 @@ public interface MediaContentRepository extends JpaRepository<MediaContent,Long>
             "WHERE m.isDeleted = false " +
             "ORDER BY m.popularity DESC")
     List<MediaContent> findGlobalTrending(Pageable pageable);
+
+    @Query("SELECT m FROM MediaContent m JOIN m.genres g WHERE g.id IN :genreIds")
+    List<MediaContent> findAllByGenreIds(@Param("genreIds") List<Long> genreIds);
 }

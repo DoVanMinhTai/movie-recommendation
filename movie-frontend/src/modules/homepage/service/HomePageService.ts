@@ -22,3 +22,10 @@ export async function getHeroMovie() {
     const response = await apiClientService.get(`${baseURL}/movie/movies/hero`);
     return response.data;
 }
+
+export async function getMoviePreferredGenres(limit: number) {
+    const response = (await apiClientService.get(
+        `${baseURL}/movie/movies/preferredGenres?limit=${limit}`
+    ));
+    return response.data;
+}

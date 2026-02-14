@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../../public/logo.png";
 import { getMovieSuggestionByTitle } from "../../../modules/search/services/SearchService";
+import { getAuthData } from "../../auth/AuthUtils";
+
+interface JwtPayload {
+	sub: string;
+	role: string;
+	iat: number;
+	exp: number;
+}
 
 const Header = () => {
 	const [searchValue, setSearchValue] = useState("");
@@ -46,6 +54,12 @@ const Header = () => {
 			navigate(`/search?s=${encodeURIComponent(searchValue)}`);
 		}
 	}
+	const handleLogout = () => {
+		localStorage.clear();
+		navigate('/login');
+	};
+	const auth = getAuthData();
+    const role = auth?.role;
 
 	return (<>
 		<header className="flex items-center w-full m-5">
@@ -53,8 +67,7 @@ const Header = () => {
 				<Link to="/"><img src={logo} className="w-20 h-10 object-cover " /></Link>
 				<ul className="flex items-center justify-center gap-3 font-bold">
 					<li><Link to="/">Home</Link></li>
-					<li><Link to="/category/tv">Phim bộ</Link></li>
-					<li><Link to="/category/movie">Phim lẻ</Link></li>
+					<li><Link to="/category">Danh mục</Link></li>
 					<li><Link to="/watchlist">Danh sách của tôi</Link></li>
 				</ul>
 			</div>
@@ -68,9 +81,6 @@ const Header = () => {
 						"
 						onChange={handleSearch}
 					/>
-					<button type="submit">
-						{/* <FontAwesomeIcon icon={byPrefixAndName.fas['magnifying-glass']} /> */}
-					</button>
 				</form>
 
 				<div className="group relative">
@@ -81,9 +91,9 @@ const Header = () => {
 					/>
 					<div className="absolute right-0 top-full hidden w-40 flex-col bg-black border border-gray-700 py-2 group-hover:flex pt-2 z-50">
 						<Link to="/profile" className="px-4 py-2 hover:bg-gray-800">Hồ sơ</Link>
-						<Link to="/admin" className="px-4 py-2 hover:bg-gray-800 text-red-500 font-bold">Quản trị (Admin)</Link>
+						{role === 'ADMIN' && <Link to="/admin" className="px-4 py-2 text-sm text-nfRed font-bold hover:bg-nfGrey-800">Trang quản trị</Link>}
 						<hr className="border-gray-700 my-1" />
-						<Link to="/login" className="px-4 py-2 hover:bg-gray-800">Đăng xuất</Link>
+						<button onClick={handleLogout} className="text-left px-4 py-2 text-sm hover:bg-nfGrey-800">Đăng xuất</button>
 					</div>
 				</div>
 			</div>
@@ -98,8 +108,8 @@ const Header = () => {
 						>
 							<div className="flex flex-1 items-center gap-3">
 								{movie.backdropPath && (
-									<img src={`https://image.tmdb.org/t/p/w500${movie.backdropPath}`} alt={movie.title} 
-									className="w-12 h-12 object-cover rounded mb-2" />
+									<img src={`https://image.tmdb.org/t/p/w500${movie.backdropPath}`} alt={movie.title}
+										className="w-12 h-12 object-cover rounded mb-2" />
 								)}
 								<span className="font-bold text-sm">{movie.title}</span>
 								<span className="text-xs text-gray-400">{movie.releaseDate}</span>
@@ -108,8 +118,7 @@ const Header = () => {
 					))}
 					<Link
 						to={`/search?s=${searchValue}`}
-						className="block text-center py-2 text-xs text-blue-400 hover:bg-gray-800"
-					>
+						className="block text-center py-2 text-xs text-blue-400 hover:bg-gray-800">
 						Xem tất cả kết quả
 					</Link>
 				</div>

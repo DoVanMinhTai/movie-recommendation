@@ -1,10 +1,8 @@
 package nlu.fit.movie_backend.service;
 
 import lombok.RequiredArgsConstructor;
-import nlu.fit.movie_backend.model.MediaContent;
 import nlu.fit.movie_backend.repository.elasticsearchrepository.MediaContentSearchRepository;
 import nlu.fit.movie_backend.viewmodel.movie.MovieSearchVm;
-import nlu.fit.movie_backend.viewmodel.movie.MovieThumbnailVms;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

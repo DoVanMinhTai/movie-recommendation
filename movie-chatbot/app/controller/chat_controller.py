@@ -7,8 +7,8 @@ from app.model.ChatRequest import ChatRequest
 from app.dependencies.chatbot_container import get_chatbot 
 import json
 
-router = APIRouter(prefix="/api/chat", tags=["Chatbot"])
-@router.post("/message", response_model=ChatResponse) 
+router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
+@router.post("/sendMessage") 
 async def chatbot(
     request: ChatRequest,
     bot: ChatBotService = Depends(get_chatbot)
@@ -19,15 +19,15 @@ async def chatbot(
         
         async def token_generator():
             try:
-                async for token in bot.process_query_stream(request.message, request.user_id):
-                    yield json.dumps(token) + "\n"  
+                async for token in bot.process_query_stream(request.message, request.userId):
+                    yield f"data: {json.dumps(token)}\n\n"  
                     await asyncio.sleep(0.01)  
             
             except Exception as e:
                 error = {"error": str(e)}
                 yield json.dumps(error) + "\n"
                         
-        return StreamingResponse(token_generator(), media_type="application/json")
+        return StreamingResponse(token_generator(), media_type="text/event-stream")
     except Exception as e:
         print(f"Error in controller: {e}")
         raise HTTPException(status_code=500, detail=str(e))

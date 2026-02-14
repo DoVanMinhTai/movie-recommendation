@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import MovieWrapper from "./MovieWrapper";
-import type { PageAbleResponse } from "../services/vm/PageAble";
+import type { PageAbleResponse } from "../services/ApiClientService";
 
 type MovieGridProps = {
     data: PageAbleResponse;

@@ -24,5 +24,8 @@ public class Genre {
     @ManyToMany(mappedBy = "genres",fetch = FetchType.LAZY)
     @JsonIgnore
     private List<MediaContent> mediaContents;
-    
+
+    @ManyToMany(mappedBy = "preferredGenres",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<User> users;
 }

@@ -4,6 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record MovieFavoritesVm(
-        Long id, String title
+        Long id, String title, String posterPath
 ) {
 }

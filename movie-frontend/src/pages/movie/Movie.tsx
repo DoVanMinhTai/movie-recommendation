@@ -7,8 +7,9 @@ import { MovieInfo } from "../../modules/moviedetail/components/MovieInfo";
 import { EpisodesSelector } from "../../modules/moviedetail/components/EpisodesSelector";
 import { SimilarMovies } from "../../modules/moviedetail/components/SimilarMovies";
 import VideoOverlay from "../../modules/moviedetail/components/VideoOverlay";
-import type { PageAbleResponse } from "../../common/services/vm/PageAble";
 import type { MovieThumbnailVm } from "../../modules/moviedetail/model/MovieThumbnailVm";
+import type { PageAbleResponse } from "../../common/services/ApiClientService";
+import { RatingSection } from "../../modules/moviedetail/components/RatingSection";
 
 export default function MovieDetail() {
   const { id } = useParams<{ id: string }>();
@@ -45,10 +46,12 @@ export default function MovieDetail() {
     <MovieHero movie={movieDetail} onPlayClick={() => handlePlay()} />
     <MovieInfo movie={movieDetail} />
     {
-      movieDetail && movieDetail.episodes && (
+      movieDetail && movieDetail.seasons && (
         <EpisodesSelector movie={movieDetail} />
       )
     }
+    {movieDetail?.id &&
+      < RatingSection mediaId={movieDetail?.id} />}
     <SimilarMovies similarMovies={similarMovies} />
     {isPlaying && <VideoOverlay movie={movieDetail} episode={undefined} onClose={function (): void {
       throw new Error("Function not implemented.");
