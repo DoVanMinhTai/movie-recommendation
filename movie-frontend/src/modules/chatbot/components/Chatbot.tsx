@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { sendMessage } from "../service/ChatBotService";
 
 export default function Chatbot() {
@@ -8,7 +8,13 @@ export default function Chatbot() {
     ]);
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        if(scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages])
     const handleSend = async () => {
         if (!input.trim()) return;
 
@@ -59,8 +65,13 @@ export default function Chatbot() {
                     try {
                         const parsed = JSON.parse(textToParse);
 
-                        const content = parsed.message || "";
-                        accumulatedText += content;
+                        let content = parsed.message || "";
+                        if (content.includes("Trình bày:") || content.includes("Trả lời:")) {
+                            const parts = content.split(/Trình bày:|Trả lời:/);
+                            content = parts[parts.length - 1].trim();
+                        }
+
+                        accumulatedText = content;
 
                         setMessages(prev => prev.map(msg =>
                             msg.id === botMsgId ? { ...msg, text: accumulatedText } : msg
@@ -68,7 +79,7 @@ export default function Chatbot() {
                     } catch (e) {
                         console.error("Lỗi parse JSON tại dòng:", textToParse, e);
                     }
-                } 
+                }
             }
         } catch (error) {
             console.error("Streaming error:", error);
@@ -88,23 +99,30 @@ export default function Chatbot() {
                     💬
                 </button>
             ) : (
-                <div className="w-[350px] h-[500px] bg-black border border-nfGrey-400 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div className="p-4 bg-black flex justify-between items-center border-b border-nfGrey-400">
+                <div className="w-[380px] h-[550px] bg-[#141414]/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
+                    <div className="p-4 flex justify-between items-center border-b border-white/10 bg-black/20">
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-white font-medium">Netflix AI Assistant</span>
+                            <span className="text-white font-medium">AI Assistant</span>
                         </div>
                         <button onClick={() => setIsOpen(false)} className="text-nfGrey-10 hover:text-white">✕</button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                    <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] p-3 rounded-2xl text-[14px] ${msg.role === 'user' ? 'bg-nfRed text-white' : 'bg-black text-nfGrey-10'
-                                    }`}>
+                                <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-[14px] leading-relaxed ${
+                                    msg.role === 'user' 
+                                    ? 'bg-[#E50914] text-white rounded-tr-none' 
+                                    : 'bg-[#2F2F2F] text-gray-100 border border-white/5 rounded-tl-none'
+                                }`}>
                                     {msg.text}
                                     {isTyping && msg.id === messages[messages.length - 1].id && msg.role === 'bot' && !msg.text && (
-                                        <span className="animate-pulse">...</span>
+                                        <div className="flex gap-1 py-2">
+                                            <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></div>
+                                            <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                                            <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -125,9 +143,10 @@ export default function Chatbot() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder="Hỏi AI về phim..."
-                                className="..."
+                                className="w-full bg-[#2b2b2b] text-white text-sm rounded-lg pl-4 pr-12 py-3 focus:outline-none focus:ring-1 focus:ring-[#E50914] transition"
                             />
-                            <button onClick={handleSend} className="text-nfRed font-bold px-2">Gửi</button>
+                            <button onClick={handleSend} 
+                            className="text-nfRed font-bold px-2">Gửi</button>
                         </div>
                     </div>
                 </div>

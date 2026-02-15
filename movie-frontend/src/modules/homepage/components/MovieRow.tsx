@@ -1,10 +1,8 @@
 import MovieWrapper from "../../../common/components/MovieWrapper";
-import type { MovieVm } from "../model/MovieVm"
 import { useRef, useState } from "react";
 
 type Props = {
     title: string,
-    // movies: MovieVm[],
     movies: any[],
     isLarge?: boolean
 }

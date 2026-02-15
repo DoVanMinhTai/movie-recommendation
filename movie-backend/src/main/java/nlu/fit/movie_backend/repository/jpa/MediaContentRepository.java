@@ -23,4 +23,6 @@ public interface MediaContentRepository extends JpaRepository<MediaContent,Long>
 
     @Query("SELECT m FROM MediaContent m JOIN m.genres g WHERE g.id IN :genreIds")
     List<MediaContent> findAllByGenreIds(@Param("genreIds") List<Long> genreIds);
+
+    List<MediaContent> findTop5ByOrderByIdDesc();
 }

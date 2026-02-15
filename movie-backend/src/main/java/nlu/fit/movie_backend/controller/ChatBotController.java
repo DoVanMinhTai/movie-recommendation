@@ -19,7 +19,7 @@ public class ChatBotController {
     @PostMapping(value = "/message", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> sendMessage(@RequestBody ChatRequest chatRequest) {
         return chatbotService.sendMessage(chatRequest).map(data -> ServerSentEvent.<String>builder()
-                        .data(data) // Gửi từng dòng nhận được từ Python đi ngay lập tức
+                        .data(data)
                         .build())
                 .onErrorResume(e -> Flux.just(ServerSentEvent.<String>builder()
                         .data("{\"error\": \"" + e.getMessage() + "\"}")

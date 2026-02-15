@@ -9,7 +9,6 @@ import MovieDetail from './pages/movie/Movie'
 import SearchResult from './pages/search/SearchResult'
 import Profile from './pages/profile/Profile'
 import WatchList from './pages/watchlist/WatchList'
-import Dashboard from './pages/admin/Dashboard'
 import MovieManage from './pages/admin/MovieManage'
 import Category from './pages/category/Category'
 import "./index.css";
