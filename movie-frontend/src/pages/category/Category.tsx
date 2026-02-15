@@ -9,15 +9,15 @@ export default function Category() {
     const [searchParams, setSearchParams] = useSearchParams();
     const genreId = searchParams.get('genre') || '';
     const sortByParam = searchParams.get('sortBy') || 'POPULARITY';
-
+    const [page, setPage] = useState(0);
     const genresQuery = useQuery({
         queryKey: ['genres'],
         queryFn: getAllGenres,
         staleTime: Infinity,
     });
     const movieQuery = useQuery({
-        queryKey: ['movies', sortByParam, genreId],
-        queryFn: () => getMoviesFilter({ sortBy: sortByParam, genreId }),
+        queryKey: ['movies', sortByParam, genreId, page],
+        queryFn: () => getMoviesFilter({ sortBy: sortByParam, genre: genreId, page }),
         placeholderData: (pre) => pre,
     });
 
@@ -26,10 +26,10 @@ export default function Category() {
     }
 
     const handleGenreChange = (newGenreId: string) => {
+        setPage(0);
         setSearchParams({ sortBy: sortByParam, genre: newGenreId });
     }
 
-    const [page, setPage] = useState(0);
 
     const banner_category_image = "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1280";
     return (

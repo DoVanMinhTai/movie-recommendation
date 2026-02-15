@@ -2,10 +2,12 @@ fastapi
 uvicorn
 sqlalchemy
 psycopg2-binary
+pydantic>=2.0.0
 pydantic-settings
 pandas
-scikit-learncd 
+scikit-learn
 scikit-surprise
 joblib
 numpy<2.0
 python-multipart
+requests

@@ -1,11 +1,11 @@
 package nlu.fit.movie_backend.viewmodel.user;
 
 import lombok.Builder;
-import nlu.fit.movie_backend.model.enumeration.ROLE;
+import java.util.List;
 
 @Builder
 public record ProfileVm(
-        Long id,
-        String userName, String email, ROLE role, String token
+        Long id, String userName, String token,
+        String fullName, String email, String role, String joinedDate, List<String> preferences
 ) {
 }

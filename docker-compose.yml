@@ -10,16 +10,16 @@ services:
         - POSTGRES_DB=${DB_NAME}
       ports:
         - "${DB_PORT}:5432"
-      volumes:
-        - pgdata:/var/lib/postgresql/data
+#      volumes:
+#        - pgdata:/var/lib/postgresql/data
       networks:
         - movie-net
       deploy:
         resources:
           limits:
-            memory: {MEM_LIMIT_POSTGRES}
+            memory: "${MEM_LIMIT_POSTGRES}"
           reservations:
-            memory: 512m
+            memory: "512m"
 
     elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
@@ -27,28 +27,31 @@ services:
       environment:
         - discovery.type=single-node
         - xpack.security.enabled=false
+        - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       ports:
         - "${ES_PORT_9200}:9200"
         - "${ES_PORT_9300}:9300"
       deploy:
         resources:
           limits:
-            memory: ${MEM_LIMIT_ES}
+            memory: "${MEM_LIMIT_ES}"
           reservations:
-            memory: 1g
+            memory: "1g"
       networks:
         - movie-net
     recommendation:
-      build: ./movie-recommendation
+      build:
+        context: ./movie-recommendation
+        dockerfile: Dockerfile
       container_name: movie-recommendation
       ports:
-        - "${RECOMMENDATION_PORT}:8082"
+        - "${RECOMMENDATION_PORT}:8002"
       env_file:
         - .env
       environment:
         - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
       volumes:
-        - .:/app
+#        - .:/app
         - ./model-store:/app/model-store/recommendation_models
       depends_on:
         - postgres
@@ -63,7 +66,7 @@ services:
       build: ./movie-chatbot
       container_name: movie-chatbot
       ports:
-        - "${CHATBOT_PORT}:8081"
+        - "${CHATBOT_PORT}:8001"
       env_file:
         - .env
       environment:

@@ -8,12 +8,10 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-// Hàm bổ trợ để parse token an toàn
 const getInfoFromToken = (token: string | null) => {
   if (!token) return null;
   try {
     const decoded: any = jwtDecode(token);
-    // Kiểm tra token hết hạn (exp)
     if (decoded.exp * 1000 < Date.now()) {
       localStorage.removeItem('token');
       return null;

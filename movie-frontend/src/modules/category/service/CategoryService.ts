@@ -16,10 +16,14 @@ export async function getAllGenres() {
     return response.data;
 }
 
-export async function getMoviesFilter({ sortBy, genreId }: { sortBy: string; genreId: string }) {
-    const params: any = { sortBy: sortBy };
-    if (genreId) {
-        params.genre = genreId;
+export async function getMoviesFilter({ sortBy, genre, page }: { sortBy: string; genre: string; page: number }) {
+    const params: any = { 
+        sortBy: sortBy,
+        page: page, 
+        size: 10   
+    };
+    if (genre) {
+        params.genre = genre;
     }
     const response = await apiClientService.get(baseURL + "movies/", {
         params: params

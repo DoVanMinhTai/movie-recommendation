@@ -8,15 +8,14 @@ import nlu.fit.movie_backend.model.enumeration.SORTBY;
 import nlu.fit.movie_backend.repository.jpa.GenreRepository;
 import nlu.fit.movie_backend.repository.jpa.MediaContentRepository;
 import nlu.fit.movie_backend.repository.jpa.MovieRepository;
+import nlu.fit.movie_backend.repository.jpa.UserRepository;
 import nlu.fit.movie_backend.viewmodel.movie.*;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,7 +27,7 @@ public class MovieService {
     private final GenreRepository genreRepository;
     private final MediaContentRepository mediaContentRepository;
     private final RecommendationService recommendationService;
-
+    private final UserRepository userRepository;
 
     public List<MovieThumbnailVms> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
@@ -175,23 +174,19 @@ public class MovieService {
         return genreRepository.findAll();
     }
 
-    public Page<MovieThumbnailVms> filterMovies(String sortBy, String genreId) {
-        Sort sort = Sort.unsorted();
-        if (sortBy != null) {
-            SORTBY sortByEnum = SORTBY.valueOf(sortBy.toUpperCase());
-            sort = switch (sortByEnum) {
-                case NEWEST -> Sort.by("releaseDate").descending();
-                case OLDEST -> Sort.by("releaseDate").descending();
-                case POPULARITY -> Sort.by("popularity").descending();
-                case RATING -> Sort.by("popularity").descending();
-                default -> Sort.by("id").ascending();
-            };
-        }
+    public Page<MovieThumbnailVms> filterMovies(String sortBy, String genreId, int page, int size) {
+        Sort sort = switch (SORTBY.valueOf(sortBy.toUpperCase())) {
+            case NEWEST -> Sort.by("releaseDate").descending();
+            case OLDEST -> Sort.by("releaseDate").ascending();
+            case POPULARITY -> Sort.by("popularity").descending();
+            case RATING -> Sort.by("voteAverage").descending();
+            default -> Sort.by("id").descending();
+        };
 
-        Pageable pageable = PageRequest.of(0, 10, sort);
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<MediaContent> mediaContents;
         if (genreId != null) {
-            mediaContents = mediaContentRepository.findByGenresId(Long.valueOf(genreId), Pageable.unpaged());
+            mediaContents = mediaContentRepository.findByGenresId(Long.valueOf(genreId), pageable);
         } else {
             mediaContents = mediaContentRepository.findAll(pageable);
         }
@@ -221,5 +216,21 @@ public class MovieService {
                 randomHero.getOverview(),
                 movie.getTrailerKey()
         );
+    }
+
+    public Map<String, List<MovieThumbnailVms>> getMoviePreferredGenres(Long userId, int limit) {
+        User user = userRepository.findById(userId).orElse(null);
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Long> genreIds = user.getPreferredGenres().stream().map(Genre::getId).toList();
+        List<MediaContent> allMovies = mediaContentRepository.findAllByGenreIds(genreIds);
+        return user.getPreferredGenres().stream()
+                .collect(Collectors.toMap(
+                        Genre::getName,
+                        genre -> allMovies.stream()
+                                .filter(m -> m.getGenres().contains(genre))
+                                .limit(limit)
+                                .map(item -> new MovieThumbnailVms(item.getId(), item.getTitle(), item.getBackdropPath()))
+                                .collect(Collectors.toList())
+                ));
     }
 }

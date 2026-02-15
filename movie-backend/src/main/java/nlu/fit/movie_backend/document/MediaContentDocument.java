@@ -27,6 +27,5 @@ public class MediaContentDocument {
     @Field(name = "backdrop_path")
     private String backdropPath;
 
-    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second)
     private Long releaseDate;
 }

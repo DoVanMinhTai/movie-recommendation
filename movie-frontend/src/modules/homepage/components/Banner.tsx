@@ -12,17 +12,12 @@ export default function Banner(hero: Props) {
   const origin = window.location.origin;
 
   const handlePlayTrailer = () => {
-    // Logic to play trailer
     setIsPlayTrailer(true);
   }
 
   const handleMoreInfo = () => {
-    // Logic to show more information
-    console.log(`Showing more info for movie ID: ${hero.movie.id}`);
     navigate(`/movie/${hero.movie.id}`);
   }
-
-  console.log("Hero movie data:", hero.movie);
 
   return <>
     <div className="relative h-[85vh] w-full">
@@ -31,7 +26,6 @@ export default function Banner(hero: Props) {
         alt={hero.movie.title}
         className="w-full h-full object-cover"
       />
-      {/* Gradient phủ lên ảnh */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-black/30" />
 
       <div className="absolute bottom-[25%] left-12 space-y-4">

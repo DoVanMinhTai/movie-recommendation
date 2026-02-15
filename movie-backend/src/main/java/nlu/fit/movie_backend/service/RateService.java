@@ -1,9 +1,12 @@
 package nlu.fit.movie_backend.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import nlu.fit.movie_backend.model.MediaContent;
 import nlu.fit.movie_backend.model.Movie;
 import nlu.fit.movie_backend.model.Rating;
 import nlu.fit.movie_backend.model.User;
+import nlu.fit.movie_backend.repository.jpa.MediaContentRepository;
 import nlu.fit.movie_backend.repository.jpa.MovieRepository;
 import nlu.fit.movie_backend.repository.jpa.RateRepository;
 import nlu.fit.movie_backend.repository.jpa.UserRepository;
@@ -19,16 +22,23 @@ import java.util.List;
 public class RateService {
     private final RateRepository rateRepository;
     private final UserRepository userRepository;
-    private final MovieRepository movieRepository;
+    private final MediaContentRepository mediaContentRepository;
 
-    public Rating rateMovie(RatingPostVm ratingRequest) {
-        Rating rating = new Rating();
+    @Transactional
+    public Rating rateMovie(Long userId, RatingPostVm ratingRequest) {
+        Rating rating = rateRepository.findByUserIdAndMediaContentId(userId, ratingRequest.movieId())
+                .orElse(new Rating());
+
+        MediaContent mediaContent = mediaContentRepository.findById(ratingRequest.movieId())
+                .orElseThrow(() -> new RuntimeException("Phim không tồn tại"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+
         rating.setScore(ratingRequest.score());
         rating.setComment(ratingRequest.comment());
-        Movie movie = movieRepository.findById(ratingRequest.movieId()).orElseThrow();
-//        rating.setMovie(movie);
-        User user = userRepository.findById(ratingRequest.userId()).orElseThrow();
+        rating.setMediaContent(mediaContent);
         rating.setUser(user);
+
         return rateRepository.save(rating);
     }
 

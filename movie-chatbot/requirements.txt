@@ -15,8 +15,9 @@ torch --index-url https://download.pytorch.org/whl/cpu
 sentence-transformers
 gpt4all
 underthesea
-pydantic
+pydantic_settings
 
 # --- Utilities ---
 pandas
 asyncio
+dotenv

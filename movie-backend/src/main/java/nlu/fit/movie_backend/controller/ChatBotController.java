@@ -3,18 +3,27 @@ package nlu.fit.movie_backend.controller;
 import lombok.AllArgsConstructor;
 import nlu.fit.movie_backend.service.ChatbotService;
 import nlu.fit.movie_backend.viewmodel.chatbot.ChatRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/chatbot")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class ChatBotController {
     private final ChatbotService chatbotService;
 
-    @PostMapping("/message")
-    public ResponseEntity<?> sendMessage(@RequestBody ChatRequest chatRequest) {
-        return ResponseEntity.ok(chatbotService.sendMessage(chatRequest));
+    @PostMapping(value = "/message", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ServerSentEvent<String>> sendMessage(@RequestBody ChatRequest chatRequest) {
+        return chatbotService.sendMessage(chatRequest).map(data -> ServerSentEvent.<String>builder()
+                        .data(data)
+                        .build())
+                .onErrorResume(e -> Flux.just(ServerSentEvent.<String>builder()
+                        .data("{\"error\": \"" + e.getMessage() + "\"}")
+                        .build()));
     }
 
     @GetMapping("/history")

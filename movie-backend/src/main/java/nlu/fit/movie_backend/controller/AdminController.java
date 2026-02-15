@@ -5,6 +5,7 @@ import nlu.fit.movie_backend.service.AdminService;
 import nlu.fit.movie_backend.service.MovieService;
 import nlu.fit.movie_backend.service.UserService;
 import nlu.fit.movie_backend.viewmodel.admin.AdminStatsResponse;
+import nlu.fit.movie_backend.viewmodel.admin.AiStatusResponse;
 import nlu.fit.movie_backend.viewmodel.admin.UserResponse;
 import nlu.fit.movie_backend.viewmodel.movie.MoviePostVm;
 import nlu.fit.movie_backend.viewmodel.movie.MoviePutVm;
@@ -14,10 +15,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class AdminController {
     private final MovieService movieService;
     private final UserService userService;
@@ -56,5 +59,15 @@ public class AdminController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         return ResponseEntity.ok(movieService.deleteMovie(id));
+    }
+
+    @GetMapping("/ai-status")
+    public ResponseEntity<AiStatusResponse> getAiStatus() {
+        return ResponseEntity.ok(adminService.getAiStatus());
+    }
+
+    @PostMapping("/retrain-ai")
+    public ResponseEntity<Map<String, String>> retrainAi() {
+        return ResponseEntity.ok(adminService.triggerRetrain());
     }
 }
