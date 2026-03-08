@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuthData } from '../../common/auth/AuthUtils';
 import { getMyProfile } from '../../modules/profile/service/ProfileService';
 
-// Định nghĩa interface để tránh lỗi type 'any'
 interface UserData {
     fullName: string;
     email: string;

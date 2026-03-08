@@ -4,10 +4,9 @@ import { useRef, useState } from "react";
 type Props = {
     title: string,
     movies: any[],
-    isLarge?: boolean
 }
 
-export default function MovieRow({ title, movies, isLarge }: Props) {
+export default function MovieRow({ title, movies }: Props) {
     const [sliderIndex, setSliderIndex] = useState(0);
     const sliderRef = useRef<HTMLDivElement>(null);
 

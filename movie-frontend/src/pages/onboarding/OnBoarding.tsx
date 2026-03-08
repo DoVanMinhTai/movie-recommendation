@@ -5,17 +5,6 @@ import type { Genre } from "../../modules/category/model/Genre";
 import { getAllGenres } from "../../modules/category/service/CategoryService";
 import { getAuthData } from "../../common/auth/AuthUtils";
 
-const GENRES = [
-    { id: 1, name: 'Hành động', emoji: '💥' },
-    { id: 2, name: 'Kinh dị', emoji: '👻' },
-    { id: 3, name: 'Hài hước', emoji: '😂' },
-    { id: 4, name: 'Lãng mạn', emoji: '❤️' },
-    { id: 5, name: 'Khoa học viễn tưởng', emoji: '🚀' },
-    { id: 6, name: 'Hoạt hình', emoji: '🦄' },
-    { id: 7, name: 'Tâm lý', emoji: '🧠' },
-    { id: 8, name: 'Tài liệu', emoji: '📹' },
-];
-
 export default function OnBoarding() {
     const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
     const [genres, setGenres] = useState<Genre[]>();

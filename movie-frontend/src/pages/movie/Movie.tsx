@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import  { useParams } from "react-router-dom";
 import { getMovieDetailById, getMovieSimilarById } from "../../modules/moviedetail/services/MovieService";
 import type { Movie } from "../../modules/moviedetail/model/MovieVm";
 import { MovieHero } from "../../modules/moviedetail/components/MovieHero";

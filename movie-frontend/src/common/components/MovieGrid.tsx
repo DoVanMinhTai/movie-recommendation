@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import MovieWrapper from "./MovieWrapper";
 import type { PageAbleResponse } from "../services/ApiClientService";
 
@@ -9,23 +8,7 @@ type MovieGridProps = {
 };
 
 const MovieGrid = ({ data, loading, onPageChange }: MovieGridProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const scrollAmount = 500; // Increased for better UX
-
-    const handleScroll = (direction: 'left' | 'right') => {
-        if (containerRef.current) {
-            const currentScroll = containerRef.current.scrollLeft;
-            const newPosition = direction === 'left'
-                ? currentScroll - scrollAmount
-                : currentScroll + scrollAmount;
-
-            containerRef.current.scrollTo({
-                left: newPosition,
-                behavior: 'smooth',
-            });
-        }
-    };
-
+    
     return (
         <div className="flex flex-col gap-6 w-full px-4">
             {/* The Grid Container */}

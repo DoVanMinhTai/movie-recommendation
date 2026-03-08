@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { Movie } from "../model/MovieVm";
 
-export default function VideoOverlay({ movie, episode, onClose }: { movie: Movie | null, episode: any, onClose: () => void }) {
+export default function VideoOverlay({ episode, onClose }: { movie: Movie | null, episode: any, onClose: () => void }) {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';

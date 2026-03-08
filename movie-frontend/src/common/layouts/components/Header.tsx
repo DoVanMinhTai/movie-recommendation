@@ -4,13 +4,6 @@ import logo from "../../../../public/logo.png";
 import { getMovieSuggestionByTitle } from "../../../modules/search/services/SearchService";
 import { getAuthData } from "../../auth/AuthUtils";
 
-interface JwtPayload {
-	sub: string;
-	role: string;
-	iat: number;
-	exp: number;
-}
-
 const Header = () => {
 	const [searchValue, setSearchValue] = useState("");
 	const [searchResults, setSearchResults] = useState<Array<{ id: number; title: string; releaseDate: number; backdropPath: string }>>([]);
